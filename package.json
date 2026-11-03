@@ -1,0 +1,29 @@
+{
+  "name": "x402-sanctions-guard",
+  "version": "0.1.0",
+  "description": "Screen x402 payers before you accept their payment: OFAC sanctions and known scam wallets are refused before settlement. Express and Hono middleware, powered by AgentForge.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./express": { "types": "./dist/express.d.ts", "import": "./dist/express.js" },
+    "./hono": { "types": "./dist/hono.d.ts", "import": "./dist/hono.js" }
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "keywords": ["x402", "sanctions", "ofac", "aml", "compliance", "express", "hono", "middleware", "usdc", "base", "solana", "ai-agents"],
+  "author": "AgentForge",
+  "license": "MIT",
+  "homepage": "https://github.com/acarchidi/x402-sanctions-guard#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/acarchidi/x402-sanctions-guard.git" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "agentforge-tools": "^0.2.0" },
+  "peerDependencies": { "express": ">=4", "hono": ">=4" },
+  "peerDependenciesMeta": { "express": { "optional": true }, "hono": { "optional": true } },
+  "devDependencies": { "@types/express": "^5.0.0", "@types/node": "^22.0.0", "express": "^5.1.0", "hono": "^4.6.0", "supertest": "^7.0.0", "@types/supertest": "^6.0.0", "typescript": "^5.6.0", "vitest": "^3.2.0" }
+}
