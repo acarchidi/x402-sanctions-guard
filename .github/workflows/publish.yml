@@ -1,0 +1,33 @@
+# Publishes to npm on every v* tag with npm trusted publishing (GitHub OIDC):
+# no npm token is stored anywhere. One-time setup on npmjs.com → package →
+# Settings → Trusted publisher → GitHub Actions: repository acarchidi/x402-sanctions-guard,
+# workflow publish.yml. Until that is done the publish step fails with E404/ENEEDAUTH.
+name: Publish to npm
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: npm install -g npm@latest # trusted publishing needs npm >= 11.5.1
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Check the tag matches package.json
+        run: |
+          v="$(node -p "require('./package.json').version")"
+          [ "refs/tags/v$v" = "$GITHUB_REF" ] || { echo "tag $GITHUB_REF != v$v"; exit 1; }
+      - run: npm publish --provenance --access public
